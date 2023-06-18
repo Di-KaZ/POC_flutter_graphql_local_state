@@ -8,6 +8,7 @@ enum MessageStatus {
 extend type Message {
   # since code gen expect local state from server response the best way if found
   # to handle local state is to mark every local field nullable so parsing doesnt fail
+# Default value is set by graphql type policy anyway
   local__status: MessageStatus @client
   local__counter: Int @client
 }
