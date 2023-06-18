@@ -14,7 +14,7 @@ Here you will find :
 - optimisticly update a query cache on local before network response
 
 ## Run the mock graphql api
-
+`npm i`
 `npm run start`
 By default server lsiten on port 3000 and pre-populated with limited dataset
 
