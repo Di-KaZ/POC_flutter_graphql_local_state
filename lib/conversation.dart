@@ -59,7 +59,7 @@ class MessageList extends StatelessWidget {
         final message = orderedMessages[index]!;
         return ListTile(
           onTap: () => controller.updateChatMessageCache(message.copyWith(
-            local__counter: message.local__counter! + 1,
+            local__counter: (message.local__counter ?? 0) + 1,
           )),
           title: Text.rich(
             TextSpan(
@@ -75,7 +75,7 @@ class MessageList extends StatelessWidget {
           subtitle: Text.rich(
             TextSpan(
               children: [
-                TextSpan(text: message.local__status?.name ?? ''),
+                TextSpan(text: 'status ${message.local__status?.name ?? ''}'),
                 TextSpan(text: 'counter ${message.local__counter ?? 0}')
               ],
             ),

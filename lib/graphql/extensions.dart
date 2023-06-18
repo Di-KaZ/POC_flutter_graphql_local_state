@@ -18,7 +18,7 @@ extension Fragment$ChatMessage$Utils on Fragment$ChatMessage {
   /// I just add a default value for the status field in not existing or incoming is found
   static TypePolicy localStatePolicy = TypePolicy(
     fields: {
-      'local__status': FieldPolicy<String?, String?, String?>(
+      'local__status': FieldPolicy(
         read: (existing, options) {
           return existing ?? Enum$MessageStatus.FAILED.name;
         },
@@ -26,7 +26,7 @@ extension Fragment$ChatMessage$Utils on Fragment$ChatMessage {
           return incoming ?? existing ?? Enum$MessageStatus.FAILED.name;
         },
       ),
-      'local__counter': FieldPolicy<int?, int?, int?>(
+      'local__counter': FieldPolicy(
         read: (existing, options) {
           return existing ?? 0;
         },

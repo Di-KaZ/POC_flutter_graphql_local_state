@@ -47,7 +47,6 @@ class Service {
   /// every time we update cache via writeXXX evevry watchQuery will be updated if query already contain a ref to the updated object
   void updateChatMessageCache(Fragment$ChatMessage message) {
     _client.writeFragment$ChatMessage(data: message, idFields: {});
-    // convObserver?.fetchResults(fetchPolicy: FetchPolicy.cacheOnly);
   }
 
   Function(GraphQLDataProxy, QueryResult<Mutation$sendMessage>?)?
