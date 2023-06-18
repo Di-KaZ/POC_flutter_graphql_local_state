@@ -16,8 +16,15 @@ class Conversation extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        // stream provider is pretty neat, 😎
         child: StreamProvider<Fragment$Conversation>.value(
           value: controller.watchConversation(id),
+          catchError: (context, error) {
+            // we can catch error and return the last safe value
+            // here i just return a loader
+            debugPrint('ERROR : ${error.toString()}');
+            return Fragment$Conversation$Utils.loader(id);
+          },
           initialData: Fragment$Conversation$Utils.loader(id),
           child: const Column(
             children: [
@@ -38,7 +45,25 @@ class ConversationHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final conversation = context.watch<Fragment$Conversation>();
-    return Text(conversation.title);
+    return Container(
+      color: Colors.cyan,
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text(
+              '${conversation.title} | ${conversation.Messages?.length} msg',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              conversation.description,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -49,8 +74,10 @@ class MessageList extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<Controller>();
     final conversation = context.watch<Fragment$Conversation>();
-    final orderedMessages = conversation.Messages!
-      ..sort((a, b) => b!.date.compareTo(a!.date));
+    // order message by date converting iso string to date
+    final orderedMessages = [...conversation.Messages!];
+    orderedMessages.sort(
+        (a, b) => DateTime.parse(b!.date).compareTo(DateTime.parse(a!.date)));
     return ListView.builder(
       controller: controller.messagesScrollController,
       reverse: true,
@@ -72,13 +99,8 @@ class MessageList extends StatelessWidget {
               ],
             ),
           ),
-          subtitle: Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(text: 'status ${message.local__status?.name ?? ''}'),
-                TextSpan(text: 'counter ${message.local__counter ?? 0}')
-              ],
-            ),
+          subtitle: Text(
+            'status = ${message.local__status?.name} | tap_count = ${message.local__counter}',
           ),
         );
       },
@@ -100,10 +122,13 @@ class MessageInput extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
-          child: TextField(
-            controller: messageContentController,
-            decoration: const InputDecoration(
-              hintText: 'Type a message',
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: TextField(
+              controller: messageContentController,
+              decoration: const InputDecoration(
+                hintText: 'Type a message',
+              ),
             ),
           ),
         ),
@@ -112,7 +137,7 @@ class MessageInput extends StatelessWidget {
             controller.sendMessage(
               Fragment$ChatMessage(
                 id: DateTime.now().millisecondsSinceEpoch.toString(),
-                date: DateTime.now().toIso8601String(),
+                date: DateTime.now().toString(),
                 message: messageContentController.text,
                 Member: conversation.Members!.firstWhere(
                     (element) => element!.User!.id == controller.userId)!,

@@ -20,10 +20,10 @@ extension Fragment$ChatMessage$Utils on Fragment$ChatMessage {
     fields: {
       'local__status': FieldPolicy(
         read: (existing, options) {
-          return existing ?? Enum$MessageStatus.FAILED.name;
+          return existing ?? Enum$MessageStatus.SENT.name;
         },
         merge: (existing, incoming, options) {
-          return incoming ?? existing ?? Enum$MessageStatus.FAILED.name;
+          return incoming ?? existing ?? Enum$MessageStatus.SENT.name;
         },
       ),
       'local__counter': FieldPolicy(

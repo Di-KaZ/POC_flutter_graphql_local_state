@@ -11,11 +11,14 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   final isar = Isar.openSync(
     [GraphqlLookupSchema],
     directory: (await getApplicationDocumentsDirectory()).path,
   );
-
+  // to clear database uncomment this line and hot restart
+  // you can watch database content with isar_inspector
+  // isar.writeTxnSync(() => isar.clearSync());
   runApp(Providers(isar: isar));
 }
 
@@ -25,6 +28,7 @@ class Providers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // standard provider stuff
     return Provider(
       create: (_) => initGraphqlClient(IsarStore(isar)),
       child: Provider(
@@ -108,14 +112,20 @@ class UserIdInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      const Text('User ID: '),
-      Expanded(
-        child: TextField(
-          keyboardType: TextInputType.number,
-          controller: controller.userIdController,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        const Text('User ID: '),
+        Expanded(
+          child: TextField(
+            keyboardType: TextInputType.number,
+            controller: controller.userIdController,
+            decoration: const InputDecoration(
+              hintText: 'Login as user with this ID and see events',
+            ),
+          ),
         ),
-      ),
-    ]);
+      ]),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:poc_graphql_cache_local_state_management/graphql/extensions.dart';
 import 'package:poc_graphql_cache_local_state_management/graphql/fragments/__generated/chat_message.graphql.dart';
 import 'package:poc_graphql_cache_local_state_management/graphql/fragments/__generated/fragments.graphql.dart';
 import 'package:poc_graphql_cache_local_state_management/service.dart';
@@ -32,9 +33,9 @@ class Controller extends ChangeNotifier {
   /// returns a stream of [Fragment$Conversation] from graphql watchQuery
   ///  only watching for cache changes
   Stream<Fragment$Conversation> watchConversation(String id) {
-    return _service
-        .watchConversation(id)
-        .map((event) => event.parsedData!.Event!);
+    // first event does not contain data maybe add a optimistic result for for now this will fix it
+    return _service.watchConversation(id).map((event) =>
+        event.parsedData?.Event ?? Fragment$Conversation$Utils.loader(id));
   }
 
   void updateChatMessageCache(Fragment$ChatMessage message) {

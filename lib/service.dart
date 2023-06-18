@@ -15,6 +15,7 @@ class Service {
   Future<List<Fragment$EventIdentity>> getUserEvents(String id) async {
     final res = await _client.query$GetEventUser(
       Options$Query$GetEventUser(
+        fetchPolicy: FetchPolicy.cacheAndNetwork,
         variables: Variables$Query$GetEventUser(id: id),
       ),
     );
@@ -36,15 +37,16 @@ class Service {
       WatchOptions$Query$GetConversation(
         fetchResults: true,
         cacheRereadPolicy: CacheRereadPolicy.mergeOptimistic,
-        fetchPolicy: FetchPolicy.cacheFirst,
+        // here we can use cache frist since in the real app we will use a stream to update messages
+        fetchPolicy: FetchPolicy.cacheAndNetwork,
         variables: Variables$Query$GetConversation(id: id),
       ),
     );
     return convObserver!.stream;
   }
 
-  /// small exapmle of how to update local state of a cached message
-  /// every time we update cache via writeXXX evevry watchQuery will be updated if query already contain a ref to the updated object
+  /// small example of how to update local state of a cached message
+  /// every time we update cache via writeXXX every watchQuery will be updated if query already contain a ref to the updated object
   void updateChatMessageCache(Fragment$ChatMessage message) {
     _client.writeFragment$ChatMessage(data: message, idFields: {});
   }
