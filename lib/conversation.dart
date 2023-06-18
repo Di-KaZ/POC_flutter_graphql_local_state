@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poc_graphql_cache_local_state_management/controller.dart';
 import 'package:poc_graphql_cache_local_state_management/graphql/fragments/__generated/chat_message.graphql.dart';
 import 'package:poc_graphql_cache_local_state_management/graphql/fragments/__generated/fragments.graphql.dart';
-import 'package:poc_graphql_cache_local_state_management/graphql/fragments/extensions.dart';
+import 'package:poc_graphql_cache_local_state_management/graphql/extensions.dart';
 import 'package:provider/provider.dart';
 
 class Conversation extends StatelessWidget {
@@ -58,6 +58,9 @@ class MessageList extends StatelessWidget {
       itemBuilder: (context, index) {
         final message = orderedMessages[index]!;
         return ListTile(
+          onTap: () => controller.updateChatMessageCache(message.copyWith(
+            local__counter: message.local__counter! + 1,
+          )),
           title: Text.rich(
             TextSpan(
               children: [
@@ -69,7 +72,14 @@ class MessageList extends StatelessWidget {
               ],
             ),
           ),
-          subtitle: Text(message.local__status?.name ?? ''),
+          subtitle: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: message.local__status?.name ?? ''),
+                TextSpan(text: 'counter ${message.local__counter ?? 0}')
+              ],
+            ),
+          ),
         );
       },
     );

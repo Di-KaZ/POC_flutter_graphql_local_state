@@ -1,16 +1,3 @@
-enum MessageStatus {
-  SENDING
-  SENT
-  FAILED
-}
-
-# Extending the Message type with the local state
-extend type Message {
-  # since code gen expect local state from server response the best way if found
-  # to handle local state is to mark every local field nullable so parsing doesnt fail
-  local__status: MessageStatus
-}
-
 fragment ChatMessage on Message {
   id
   date
@@ -18,6 +5,8 @@ fragment ChatMessage on Message {
   Member {
     ...ChatMember
   }
-  # mark the local state as a client field will be striped from server calls by [client_directive_handler_link.dart]
+  # mark the local state as a client field will be striped from server calls
+  # by [client_directive_handler_link.dart]
   local__status @client
+  local__counter @client
 }

@@ -34,6 +34,7 @@ class GraphqlLookup {
 }
 
 /// A [Store] implementation that uses [Isar] as the underlying storage.
+/// It can be whatever we want as long as it implements the [Store] interface.
 class IsarStore extends Store {
   final Isar _isar;
 
@@ -62,15 +63,17 @@ class IsarStore extends Store {
 
   @override
   void putAll(Map<String, Map<String, dynamic>?> data) {
-    _isar.writeTxnSync(() => _isar.graphqlLookups.putAllSync(
-          data.entries
-              .map(
-                (e) => GraphqlLookup()
-                  ..id = e.key
-                  ..data = e.value,
-              )
-              .toList(),
-        ));
+    _isar.writeTxnSync(
+      () => _isar.graphqlLookups.putAllSync(
+        data.entries
+            .map(
+              (e) => GraphqlLookup()
+                ..id = e.key
+                ..data = e.value,
+            )
+            .toList(),
+      ),
+    );
   }
 
   @override

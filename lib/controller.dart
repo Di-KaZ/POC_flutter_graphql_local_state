@@ -29,6 +29,8 @@ class Controller extends ChangeNotifier {
     return await _service.getUserEvents(userId);
   }
 
+  /// returns a stream of [Fragment$Conversation] from graphql watchQuery
+  ///  only watching for cache changes
   Stream<Fragment$Conversation> watchConversation(String id) {
     return _service
         .watchConversation(id)

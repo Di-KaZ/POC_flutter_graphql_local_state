@@ -1,0 +1,13 @@
+enum MessageStatus {
+  SENDING
+  SENT
+  FAILED
+}
+
+# Extending the Message type with the local state
+extend type Message {
+  # since code gen expect local state from server response the best way if found
+  # to handle local state is to mark every local field nullable so parsing doesnt fail
+  local__status: MessageStatus @client
+  local__counter: Int @client
+}

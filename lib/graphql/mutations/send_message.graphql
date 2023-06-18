@@ -10,6 +10,7 @@ mutation sendMessage(
     message: $message
     date: $date
   ) {
+    # always use gragment to make converstion simpler in front
     ...ChatMessage
   }
 }
