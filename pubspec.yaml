@@ -1,0 +1,31 @@
+name: poc_graphql_cache_local_state_management
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=2.19.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  graphql: ^5.1.3
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  normalize: ^0.8.2+1
+  provider: ^6.0.5
+  path_provider: ^2.0.15
+  gql_http_link: ^1.0.1
+  graphql_cache_inspector: ^0.0.2+1
+  gql: ^1.0.1-alpha+1686240655988
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  graphql_codegen: ^0.13.2
+  build_runner: ^2.3.3
+  isar_generator: ^3.1.0+1
+
+flutter:
+  uses-material-design: true

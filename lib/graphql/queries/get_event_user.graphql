@@ -1,0 +1,9 @@
+query GetEventUser($id: ID!) {
+  User(id: $id) {
+    Members {
+      Event {
+        ...Conversation
+      }
+    }
+  }
+}

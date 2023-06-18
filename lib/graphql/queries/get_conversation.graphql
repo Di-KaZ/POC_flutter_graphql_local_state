@@ -1,0 +1,5 @@
+query GetConversation($id: ID!) {
+  Event(id: $id) {
+    ...Conversation
+  }
+}

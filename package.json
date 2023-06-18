@@ -1,0 +1,21 @@
+{
+  "name": "poc_graphql_cache_local_state_management",
+  "version": "1.0.0",
+  "description": "A new Flutter project.",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "json-graphql-server mock_graphql/data.js -h 192.168.1.87",
+    "get-schema": "get-graphql-schema http://localhost:3000/graphql > ./lib/graphql/schema.graphql"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "get-graphql-schema": "^2.1.2",
+    "json-graphql-server": "^2.2.3"
+  }
+}

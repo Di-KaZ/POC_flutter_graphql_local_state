@@ -1,0 +1,161 @@
+"""Date type"""
+scalar Date
+
+type Event {
+  id: ID!
+  title: String!
+  description: String!
+  adress: String!
+  date: Date
+  Messages: [Message]
+  Members: [Member]
+}
+
+input EventFilter {
+  q: String
+  ids: [ID]
+  id: ID
+  title: String
+  description: String
+  adress: String
+  date: Date
+  id_neq: ID
+  title_neq: String
+  description_neq: String
+  adress_neq: String
+  date_lt: Date
+  date_lte: Date
+  date_gt: Date
+  date_gte: Date
+  date_neq: Date
+}
+
+input EventInput {
+  title: String!
+  description: String!
+  adress: String!
+  date: Date
+}
+
+type ListMetadata {
+  count: Int
+}
+
+type Member {
+  id: ID!
+  user_id: ID!
+  event_id: ID!
+  role: String!
+  Messages: [Message]
+  User: User
+  Event: Event
+}
+
+input MemberFilter {
+  q: String
+  ids: [ID]
+  id: ID
+  user_id: ID
+  event_id: ID
+  role: String
+  id_neq: ID
+  user_id_neq: ID
+  event_id_neq: ID
+  role_neq: String
+}
+
+input MemberInput {
+  user_id: ID!
+  event_id: ID!
+  role: String!
+}
+
+type Message {
+  id: ID!
+  member_id: ID!
+  event_id: ID!
+  message: String!
+  date: Date!
+  Member: Member
+  Event: Event
+}
+
+input MessageFilter {
+  q: String
+  ids: [ID]
+  id: ID
+  member_id: ID
+  event_id: ID
+  message: String
+  date: Date
+  id_neq: ID
+  member_id_neq: ID
+  event_id_neq: ID
+  message_neq: String
+  date_lt: Date
+  date_lte: Date
+  date_gt: Date
+  date_gte: Date
+  date_neq: Date
+}
+
+input MessageInput {
+  member_id: ID!
+  event_id: ID!
+  message: String!
+  date: Date!
+}
+
+type Mutation {
+  createEvent(title: String!, description: String!, adress: String!, date: Date): Event
+  createManyEvent(data: [EventInput]): [Event]
+  updateEvent(id: ID!, title: String, description: String, adress: String, date: Date): Event
+  removeEvent(id: ID!): Event
+  createUser(name: String!): User
+  createManyUser(data: [UserInput]): [User]
+  updateUser(id: ID!, name: String): User
+  removeUser(id: ID!): User
+  createMessage(member_id: ID!, event_id: ID!, message: String!, date: Date!): Message
+  createManyMessage(data: [MessageInput]): [Message]
+  updateMessage(id: ID!, member_id: ID, event_id: ID, message: String, date: Date): Message
+  removeMessage(id: ID!): Message
+  createMember(user_id: ID!, event_id: ID!, role: String!): Member
+  createManyMember(data: [MemberInput]): [Member]
+  updateMember(id: ID!, user_id: ID, event_id: ID, role: String): Member
+  removeMember(id: ID!): Member
+}
+
+type Query {
+  Event(id: ID!): Event
+  allEvents(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: EventFilter): [Event]
+  _allEventsMeta(page: Int, perPage: Int, filter: EventFilter): ListMetadata
+  User(id: ID!): User
+  allUsers(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: UserFilter): [User]
+  _allUsersMeta(page: Int, perPage: Int, filter: UserFilter): ListMetadata
+  Message(id: ID!): Message
+  allMessages(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: MessageFilter): [Message]
+  _allMessagesMeta(page: Int, perPage: Int, filter: MessageFilter): ListMetadata
+  Member(id: ID!): Member
+  allMembers(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: MemberFilter): [Member]
+  _allMembersMeta(page: Int, perPage: Int, filter: MemberFilter): ListMetadata
+}
+
+type User {
+  id: ID!
+  name: String!
+  Members: [Member]
+}
+
+input UserFilter {
+  q: String
+  ids: [ID]
+  id: ID
+  name: String
+  id_neq: ID
+  name_neq: String
+}
+
+input UserInput {
+  name: String!
+}
+

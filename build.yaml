@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      graphql_codegen:
+        options:
+          addTypenameExcludedPaths:
+          assetsPath: graphql/**
+          outputDirectory: __generated
+          generatedFileHeader: "// ignore_for_file: type=lint\n"
+          clients:
+            - graphql

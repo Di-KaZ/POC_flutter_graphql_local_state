@@ -1,0 +1,15 @@
+mutation sendMessage(
+  $member_id: ID!
+  $event_id: ID!
+  $message: String!
+  $date: Date!
+) {
+  createMessage(
+    member_id: $member_id
+    event_id: $event_id
+    message: $message
+    date: $date
+  ) {
+    ...ChatMessage
+  }
+}

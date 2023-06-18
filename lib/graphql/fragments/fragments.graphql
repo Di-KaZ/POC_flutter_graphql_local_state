@@ -1,0 +1,24 @@
+fragment EventIdentity on Event {
+  id
+  title
+  description
+}
+
+fragment ChatMember on Member {
+  id
+  role
+  User {
+    id
+    name
+  }
+}
+
+fragment Conversation on Event {
+  ...EventIdentity
+  Messages {
+    ...ChatMessage
+  }
+  Members {
+    ...ChatMember
+  }
+}
